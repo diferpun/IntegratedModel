@@ -45,20 +45,20 @@ def save_metrics(Np,Test_dic,CM_pred,folder,cutoffs=[0,0.5]):
         reduce_df[reduce_df <= 0] = 0
         reduce_df.insert(0, "Target",trg)
         reduce_df.insert(1, "Length", Lp)
-        reduce_df.to_csv(f"{folder_red}/{rg}.csv", decimal=',', sep=';', float_format='%.3f')
+        reduce_df.to_csv(f"{folder_red}/{rg}.csv", decimal='.', sep=';', float_format='%.3f')
 
     for j, rg in enumerate(ranges_full):
         full_df = pd.DataFrame(data=X_full[:,j,:],columns=header_full)
-        full_df[full_df<=0]=0
+        full_df .loc[full_df ['F1']<= 0,'F1'] = 0
+        full_df .loc[full_df ['Prec']<= 0,'Prec'] = 0
+        full_df .loc[full_df ['Rec']<= 0,'Rec'] = 0
         full_df.insert(0, "Target", trg)
         full_df.insert(1, "Length", Lp)
-        full_df.to_csv(f"{folder_full}/{rg}.csv", decimal=',', sep=';', float_format='%.3f')
-
+        full_df.to_csv(f"{folder_full}/{rg}.csv", decimal='.', sep=';', float_format='%.3f')
 
     with open(f"{folder}/cutoff.txt", "w") as the_file:
         the_file.write(f"Reduce List cutoff {str(cutoff_red)}\n")
         the_file.write(f"Full   List cutoff {str(cutoff_full)}\n")
-
 
 def F1(TP, FP, TN, FN):
     epsilon = 0.000001
@@ -66,7 +66,6 @@ def F1(TP, FP, TN, FN):
     recall = TP * 1. / (TP + FN + epsilon)
     F1 = (2. * precision * recall) / (precision + recall + epsilon)
     return F1, precision, recall
-
 
 def MCC(TP, FP, TN, FN):
     epsilon = 0.000001
@@ -202,63 +201,3 @@ def logit_histogram(Y_pred):
     plt.hist(cm_ud,bins=50)
     plt.show()
 
-#keys=['name', 'sequence', 'fseq', 'fcoev', 'label']
-#if __name__ == "__main__":
-
-    #DR options "RAW", PCA,  ICA, RMP
-    #76CAMEO,MEMS400,CASP11,Test
-    # modelname="Model_0"
-    # dr_method="PCA"
-    # test_data_file="Test"
-    #
-    # fold =f"/home/diego/Tesis_Final/Tesis/Model/Models/{dr_method}Models/{modelname}"
-    #
-    # fold_out=f"{fold}/{test_data_file}_res"
-    #
-    # with open(f"/home/diego/Tesis_Final/Tesis/DataSets/{dr_method}/{test_data_file}_L430.pickle", 'rb') as Pbatch:
-    #     Test_Data = pickle.load(Pbatch)
-
-    #
-    # with open(f"{fold}/Pred_{test_data_file}_L430.pickle", 'rb') as Pbatch:
-    #      pred1 = pickle.load(Pbatch)
-
-    # for i in range(30,len(Test_Data)):
-    #     try:
-    #       save_metrics(Np=i,Test_dic=Test_Data,CM_pred=pred1,folder=fold_out,cutoffs=[0,0.5])
-    #     except:
-    #       print("Error",i)
-
-    # for i in range(len(Test_Data)):
-    #     n=i
-    #     cr=["ELR","LR","LMR","MR","SR"]
-    #     Y_true=Test_Data[n]['label'][:,:,1]
-    #     Y_pred=pred1[n]
-    #     print(n,Test_Data[n]['name'],Y_true.shape,Y_pred.shape)
-
-    #red_dic=reduceListMetrics(pred=Y_pred,truth=Y_true)
-    #print(n,Test_Data[n]['name'])
-    # print(red_dic.keys())
-    # print(red_dic[cr[3]])
-
-    #mask_ER, mask_LR, mask_MLR, mask_SMLR
-    # n=0
-    # Y_true=Test_Data[n]['label'][:,:,1]
-    # Y_pred=pred1[n]
-    # full_array=CalcMCCF1(pred=Y_pred,truth=Y_true,probCutoff=0)
-    # print(n,Test_Data[n]['name'])
-    # print(full_array.shape)
-    # print(full_array)
-    # #
-    # X_full=mergeFullList(1,pred1,Test_Data)
-    # print(X_full[0,1,:])
-
-
-    #MF=CalcMCCF1(pred=Y_pred,truth=Y_true)
-
-    #nn=len(Test_Data)
-    #mergeReduceList(nn,pred1,Test_Data)
-    #mergeFullList(nn,pred1,Test_Data)
-
-    # for i in range(len(Test_Data)):
-    #     #print(Test_Data[i]['label'][:,:,1].shape[0])
-    #     print(Test_Data[i]['label'][:,:,1].shape[0]==pred1[i].shape[0])
