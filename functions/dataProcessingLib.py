@@ -128,7 +128,7 @@ def SelecbySize(Ldic,Lprot,liminf=26,limsup=400): # Select a group of dataset by
 
 def dataGen(DR,data_file,Lmin=26,Lmax=430,padd=10,istrain=False,norm=False):
     print(f"{DR},{data_file}")
-    Data_Dic,L_dat=Extract_features(file=f"dataSets/{data_file}.pickle",DR_method=DR,istrain=istrain,norm=norm)
+    Data_Dic,L_dat=Extract_features(file=f"{data_file}.pickle",DR_method=DR,istrain=istrain,norm=norm)
     if(data_file !="Test"):
        Data_Dic=Prot_padding(Data_Dic,padd)
     Data_Dic_R,ind_dat=SelecbySize(Data_Dic,L_dat,Lmin,Lmax)

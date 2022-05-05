@@ -12,8 +12,8 @@ import csv
 if __name__ == '__main__':
    ########## Important definitions ###################################################################
 
-   dataDir   = ""
-   modelsDir = ""
+   dataDir   = "/home/d_penacinar/dataSets"
+   modelsDir = "/home/d_penacinar"
    Lmax=430
    dr = "PCA"
    isnorm=False
@@ -29,9 +29,9 @@ if __name__ == '__main__':
       if dr!="RAW":
          dimReductionModels(X_dir=dataDir,dim= i,drmethod=dr,norm=isnorm)
 
-      x_train = dataGen(DR=dr,data_file=ds[0],Lmin=26,Lmax=Lmax,istrain=False,norm=isnorm)
-      x_valid = dataGen(DR=dr, data_file=ds[1],Lmin=26,Lmax=Lmax, istrain=False, norm=isnorm)
-      x_test  = dataGen(DR=dr, data_file=ds[2],Lmin=26,Lmax=Lmax, istrain=False, norm=isnorm)
+      x_train = dataGen(DR=dr,data_file=f"{dataDir}/{ds[0]}",Lmin=26,Lmax=Lmax,istrain=False,norm=isnorm)
+      x_valid = dataGen(DR=dr, data_file=f"{dataDir}/{ds[1]}",Lmin=26,Lmax=Lmax, istrain=False, norm=isnorm)
+      x_test  = dataGen(DR=dr, data_file=f"{dataDir}/{ds[2]}",Lmin=26,Lmax=Lmax, istrain=False, norm=isnorm)
       x_train = random.sample(x_train,600)
       x_valid = random.sample(x_valid,60)
       x_test  = random.sample(x_test,60)
