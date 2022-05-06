@@ -15,7 +15,7 @@ if __name__ == '__main__':
    dataDir   = "/home/d_penacinar/dataSets"
    modelsDir = "/home/d_penacinar"
    Lmax=430
-   dr = "PCA"
+   dr = "RP"
    isnorm=False
    ds=["Train","Valid","Test"]
    #dm = 46
@@ -35,7 +35,7 @@ if __name__ == '__main__':
       x_train = random.sample(x_train,600)
       x_valid = random.sample(x_valid,60)
       x_test  = random.sample(x_test,60)
-
+      print("dimensions",x_train[0]['fseq'].shape,x_valid[0]['fseq'].shape,x_test[0]['fseq'].shape)
       ####################### Training #######################################################################
       start_time = time.time()
 

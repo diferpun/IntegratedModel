@@ -445,6 +445,6 @@ def graphLossAcc(n_folder,met):
     plt.xlabel('epochs')
     #plt.show()
     plt.savefig(f"{n_folder}/acc.png")
-
+    plt.close()
 
 
