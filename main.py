@@ -22,7 +22,7 @@ if __name__ == '__main__':
    diml=list(range(3, 46, 3))
 
    ############ Dimension loop #########################################################################
-   for i in [26,27,28]:
+   for i in diml:
 
       ##############Data Processing###################################################################
       random.seed(0)
@@ -39,7 +39,7 @@ if __name__ == '__main__':
       ####################### Training #######################################################################
       start_time = time.time()
 
-      epch = 5
+      epch = 100
       N_train = len(x_train)  # number of trainig     chain proteins
       N_valid = len(x_valid)  # number of validation  chain proteins
       N_test  = len(x_test)
