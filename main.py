@@ -12,14 +12,11 @@ import csv
 if __name__ == '__main__':
    ########## Important definitions ###################################################################
 
-   # dataDir   = "/home/sanlucp71/dataSets"
-   # modelsDir = "/home/sanlucp71"
-
-   dataDir   = "dataSets"
-   modelsDir = ""
+   dataDir   = "/home/sanlucp71/dataSets"
+   modelsDir = "/home/sanlucp71"
 
    Lmax=430
-   dr = "RAW"
+   dr = "PCA"
    isnorm=False
    ds=["Train","Valid","Test"]
    #dm = 46
