@@ -1,6 +1,6 @@
 from functions.dimReductionLib   import dimReductionModels
 from functions.dataProcessingLib import dataGen
-from functions.modelLib          import ResNet_Final,Train,Store_model,CM_pred,LoadModel,graphLossAcc
+from functions.modelLib          import ResNet_Final,Train,Store_model,CM_pred,LoadModel,graphLossAcc,CM_pred2
 from tensorflow.keras.optimizers import Adam
 from functions.evalMetricslib    import save_metrics
 import pickle
@@ -12,14 +12,20 @@ import csv
 if __name__ == '__main__':
    ########## Important definitions ###################################################################
 
-   dataDir   = "/home/sanlucp71/dataSets"
-   modelsDir = "/home/sanlucp71"
+   # dataDir   = "/home/sanlucp71/dataSets"
+   # modelsDir = "/home/sanlucp71"
+
+   dataDir   = "dataSets"
+   modelsDir = ""
+
    Lmax=430
-   dr = "RP"
+   dr = "RAW"
    isnorm=False
    ds=["Train","Valid","Test"]
    #dm = 46
    diml=list(range(3, 46, 3))
+   #diml=[46]
+   sdr = np.random.randint(0, 2000, 1)[0]  # seed weights
 
    ############ Dimension loop #########################################################################
    for i in diml:
@@ -40,13 +46,12 @@ if __name__ == '__main__':
       start_time = time.time()
 
       epch = 50
-      N_train = len(x_train)  # number of trainig     chain proteins
-      N_valid = len(x_valid)  # number of validation  chain proteins
-      N_test  = len(x_test)
+      N_train =len(x_train)  # number of trainig     chain proteins
+      N_valid =len(x_valid)  # number of validation  chain proteins
+      N_test  =len(x_test)
 
       lr = 0.01  # learning rate values
 
-      sdr = np.random.randint(0, 2000, 1)[0]  # seed weights
       opt = Adam(learning_rate=lr)
 
       model = ResNet_Final(feature1D_shape=i, feature2D_deep=4, reg_params=None, rseed=sdr)
@@ -55,14 +60,14 @@ if __name__ == '__main__':
       results = Train(model, [N_train,N_valid], Data=[x_train, x_valid], epochs=epch, max_lr=0.1)
       end_time= time.time() - start_time
 
-      ########### Testing and save the model ##############################################################
+      # ########### Testing and save the model ##############################################################
 
       strore_folder=Store_model(k_model=model, Metric_res=results, fold_out=modelsDir,
                                 lab=f"ResNet64_2D_{dr}_epochs_{epch}_dim_{i}",dr=dr)
 
       model, metrics = LoadModel(n_folder=strore_folder,n_model="model.json",n_h5="model.h5")
       graphLossAcc(n_folder=strore_folder, met=metrics)
-      Yp = CM_pred(net=model, Np_pred=N_test, Test_Data=x_test,folder_pred=strore_folder,test_name="Test")
+      Yp = CM_pred2(net=model, Np_pred=N_test, Test_Data=x_test,folder_pred=strore_folder,test_name="Test")  #yp_keys 'name', 'sequence', 'pred'
       save_metrics(Np=N_test, Test_dic=x_test, CM_pred=Yp, folder=f"{strore_folder}/Test_res", cutoffs=[0.20, 0.20])
 
       with open(f'{modelsDir}/models/{dr}/time_file.csv', 'a') as f:

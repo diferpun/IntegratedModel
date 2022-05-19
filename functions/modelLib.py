@@ -370,6 +370,38 @@ def CM_pred(net,Np_pred,Test_Data,folder_pred="",test_name=""):
     return Y_pred
 
 
+def CM_pred2(net, Np_pred, Test_Data, folder_pred="", test_name=""):
+    #############################################################################
+    # inputs
+    # net_pred trained model in keras
+    # Np_pred number of proteins to predict
+    # Test_Data a dic with fseq (sequencial features) and fcoev (coevolition features)
+    # Output
+    # Y_pred A list with the probabilities of contact (L,L,3)
+    ############################################################################
+
+    Y_pred =  []
+    Y_dic  =  {}
+
+    for i in range(Np_pred):
+        Xs_test = tf.convert_to_tensor(np.reshape(Test_Data[i]['fseq'],
+                                                  (Test_Data[i]['fseq'].shape[0], 1, Test_Data[i]['fseq'].shape[1])))
+        Xc_test = tf.convert_to_tensor(np.reshape(Test_Data[i]['fcoev'],
+                                                  (Test_Data[i]['fcoev'].shape[0], Test_Data[i]['fcoev'].shape[1], 1,
+                                                   Test_Data[i]['fcoev'].shape[2])))
+        Y = net.predict_on_batch([Xs_test, Xc_test])
+        Y = np.reshape(Y, (Y.shape[1], Y.shape[2], Y.shape[3]))
+        print("name: ", Test_Data[i]['name'], "length: ", Y.shape[0], "# Protein : ", i)
+        Y_dic = {"name":Test_Data[i]['name'] ,"sequence": Test_Data[i]['sequence'],"pred": Y[:, :, 1]}
+
+        Y_pred.append(Y_dic)
+
+    with open(f"{folder_pred}/Pred_{test_name}.pickle", "wb") as File:
+        pickle.dump(Y_pred, File)
+
+    return Y_pred
+
+
 def Store_model(k_model, Metric_res, fold_out="", lab="CM",dr=""):
     ########################################################################
     # Store_model this function store the model when the training is done  #
@@ -438,6 +470,7 @@ def graphLossAcc(n_folder,met):
     plt.xlabel('epochs')
     #plt.show()
     plt.savefig(f"{n_folder}/loss.png")
+    plt.close()
     plt.figure(2)
     plt.plot(met['Tacc_per_epoch'])
     plt.plot(met['Vacc_per_epoch'])

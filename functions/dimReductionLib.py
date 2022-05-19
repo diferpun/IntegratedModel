@@ -46,7 +46,6 @@ def dimReductionModels(X_dir,dim,drmethod,norm,rand_seed=0,iterations=7):
 
 
 def dimReduction(X_raw, DR_method,norm=False): #### this function chooses a dimensionality reduction method in order to obtain the embebbed space
-
     folder_mod="drMethods" # this is the path where the dimensionality reduction models are saved important
     if norm:
        print("Normalising the data")

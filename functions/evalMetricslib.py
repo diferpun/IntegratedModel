@@ -165,7 +165,7 @@ def mergeReduceList(Np,CM_pred,Test_Data,cutoff=0):
     red_met = np.zeros((Np,12,5))  ### inicialice matriz of matrix ("be carefoul of 12 dimension 4x3")
     for i in range(Np):
         Y_true = Test_Data[i]['label'][:, :, 1] # real contact map
-        Y_pred = CM_pred[i] # predicted contact map
+        Y_pred = CM_pred[i]["pred"] # predicted contact map
         reduce_metrics_dic = reduceListMetrics(pred=Y_pred, truth=Y_true,probCutoff=cutoff) # metrics calculation
         for j,cmtype in enumerate(reduce_metrics_dic.keys()): # contact ranges mask_ER,mask_LR,mask_MLR,mask_MR,mask_SR inside thidr dimesion
              red_met [i, :, j] = reduce_metrics_dic[cmtype]   # saves the information of all proteins in a three dimensional matrix
@@ -186,7 +186,7 @@ def mergeFullList(Np,CM_pred,Test_Data,cutoff=0):
     full_met = np.zeros((Np, 16)) #### the dimension can be varible
     for i in range(Np):
         Y_true = Test_Data[i]['label'][:, :, 1] # real contact map
-        Y_pred = CM_pred[i] # predicted contact map
+        Y_pred = CM_pred[i]["pred"] # predicted contact map
         full_met[i,:] = CalcMCCF1(pred=Y_pred, truth=Y_true,probCutoff=cutoff) # metrics calculation
         #print(full_met)
     X_m=full_met.reshape((Np,4,4)) # reshape in order to separate the contacs ranges
