@@ -83,7 +83,7 @@ def CalcMCCF1(pred=None, truth=None, probCutoff=0):
     pred_binary = (pred > probCutoff) #### loggits greater of a cutoff matrix of zero and ones ########
     truth_binary = (0 < truth)        ####  contact map greater than cero matrix of zero and ones #######
     pred_truth = pred_binary * 2 + truth_binary #### adition of 2 times predictions and truth contacts #####
-    mask_ER = np.triu_indices(seqLen,48,m=seqLen2) ######### indices de de la diagonal mayor a la 42 ######
+    mask_ER = np.triu_indices(seqLen,50,m=seqLen2) ######### indices de de la diagonal mayor a la 42 ######
     mask_LR = np.triu_indices(seqLen,24,m=seqLen2) ######### indices de de la diagonal mayor a la 24 ######
     mask_MLR = np.triu_indices(seqLen,12,m=seqLen2) ######### indices de de la diagonal mayor a la 12 ######
     mask_SMLR = np.triu_indices(seqLen,6,m=seqLen2) ######### indices de de la diagonal mayor a la 6 ######
@@ -113,7 +113,7 @@ def reduceListMetrics(pred=None, truth=None, ratio=[1, 0.5, 0.2],probCutoff=0):
 
     pred_truth = np.dstack((pred, truth))     # 3D concatenation
     M1s = np.ones_like(truth, dtype=np.int8)  # matrix full of ones with the shape L,L
-    mask_ER = np.triu(M1s, 48)        # mask for Extra long range diagonal >48
+    mask_ER = np.triu(M1s, 50)        # mask for Extra long range diagonal >48
     mask_LR = np.triu(M1s, 24)        # mask for long range  diagonal >24
     mask_MLR = np.triu(M1s, 12)       # mask for long + medium range 12<diagonal
     mask_SMLR = np.triu(M1s, 6)       # mask short  short + medium + long 6< diagonal
