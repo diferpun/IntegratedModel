@@ -12,8 +12,8 @@ import csv
 if __name__ == '__main__':
    ########## Important definitions ###################################################################
 
-   dataDir   = "/home/d_penacinar/dataSets"
-   modelsDir = "/home/d_penacinar"
+   dataDir   = "/home/sanlucp71/dataSets"
+   modelsDir = "/home/sanlucp71"
    Lmax=430
    dr = "RP"
    isnorm=False
