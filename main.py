@@ -12,8 +12,11 @@ import csv
 if __name__ == '__main__':
    ########## Important definitions ###################################################################
 
-   dataDir   = "/home/sanlucp71/dataSets"
-   modelsDir = "/home/sanlucp71"
+   #dataDir   = "/home/sanlucp71/dataSets"
+   #modelsDir = "/home/sanlucp71"
+
+   dataDir   = "dataSets"
+   modelsDir = ""
 
    Lmax=430
    dr = "PCA"
@@ -25,16 +28,16 @@ if __name__ == '__main__':
    sdr = np.random.randint(0, 2000, 1)[0]  # seed weights
 
    ############ Dimension loop #########################################################################
-   for i in diml:
+   for i in [26]:#diml:
 
       ##############Data Processing###################################################################
       random.seed(0)
       if dr!="RAW":
          dimReductionModels(X_dir=dataDir,dim= i,drmethod=dr,norm=isnorm)
 
-      x_train = dataGen(DR=dr,data_file=f"{dataDir}/{ds[0]}",Lmin=26,Lmax=Lmax,istrain=False,norm=isnorm)
-      x_valid = dataGen(DR=dr, data_file=f"{dataDir}/{ds[1]}",Lmin=26,Lmax=Lmax, istrain=False, norm=isnorm)
-      x_test  = dataGen(DR=dr, data_file=f"{dataDir}/{ds[2]}",Lmin=26,Lmax=Lmax, istrain=False, norm=isnorm)
+      x_train = dataGen(DR=dr,data_file=f"{dataDir}/{ds[0]}",Lmin=26,padd=10,Lmax=Lmax,istrain=False,norm=isnorm)
+      x_valid = dataGen(DR=dr, data_file=f"{dataDir}/{ds[1]}",Lmin=26,padd=10,Lmax=Lmax, istrain=False, norm=isnorm)
+      x_test  = dataGen(DR=dr, data_file=f"{dataDir}/{ds[2]}",Lmin=26,padd=None,Lmax=Lmax, istrain=False, norm=isnorm)
       x_train = random.sample(x_train,600)
       x_valid = random.sample(x_valid,60)
       x_test  = random.sample(x_test,60)
@@ -42,10 +45,10 @@ if __name__ == '__main__':
       ####################### Training #######################################################################
       start_time = time.time()
 
-      epch = 50
-      N_train =len(x_train)  # number of trainig     chain proteins
-      N_valid =len(x_valid)  # number of validation  chain proteins
-      N_test  =len(x_test)
+      epch = 10 #50
+      N_train =10 #len(x_train)  # number of trainig     chain proteins
+      N_valid =2 #len(x_valid)  # number of validation  chain proteins
+      N_test  =5 #len(x_test)
 
       lr = 0.01  # learning rate values
 
@@ -67,8 +70,8 @@ if __name__ == '__main__':
       Yp = CM_pred2(net=model, Np_pred=N_test, Test_Data=x_test,folder_pred=strore_folder,test_name="Test")  #yp_keys 'name', 'sequence', 'pred'
       save_metrics(Np=N_test, Test_dic=x_test, CM_pred=Yp, folder=f"{strore_folder}/Test_res", cutoffs=[0.20, 0.20])
 
-      with open(f'{modelsDir}/models/{dr}/time_file.csv', 'a') as f:
-         # create the csv writer
-         fieldnames = ['time', 'dim']
-         writer = csv.DictWriter(f, fieldnames=fieldnames)
-         writer.writerow({'time': end_time/3600, 'dim': i})
+      # with open(f'{modelsDir}/models/{dr}/time_file.csv', 'a') as f:
+      #    # create the csv writer
+      #    fieldnames = ['time', 'dim']
+      #    writer = csv.DictWriter(f, fieldnames=fieldnames)
+      #    writer.writerow({'time': end_time/3600, 'dim': i})

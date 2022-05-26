@@ -381,7 +381,7 @@ def CM_pred2(net, Np_pred, Test_Data, folder_pred="", test_name=""):
     ############################################################################
 
     Y_pred =  []
-    Y_dic  =  {}
+
 
     for i in range(Np_pred):
         Xs_test = tf.convert_to_tensor(np.reshape(Test_Data[i]['fseq'],
@@ -389,16 +389,18 @@ def CM_pred2(net, Np_pred, Test_Data, folder_pred="", test_name=""):
         Xc_test = tf.convert_to_tensor(np.reshape(Test_Data[i]['fcoev'],
                                                   (Test_Data[i]['fcoev'].shape[0], Test_Data[i]['fcoev'].shape[1], 1,
                                                    Test_Data[i]['fcoev'].shape[2])))
+
         Y = net.predict_on_batch([Xs_test, Xc_test])
         Y = np.reshape(Y, (Y.shape[1], Y.shape[2], Y.shape[3]))
         print("name: ", Test_Data[i]['name'], "length: ", Y.shape[0], "# Protein : ", i)
-        Y_dic = {"name":Test_Data[i]['name'] ,"sequence": Test_Data[i]['sequence'],"pred": Y[:, :, 1]}
+        Y_dic = {"name":Test_Data[i]['name'] ,"sequence": Test_Data[i]['sequence']
+                ,"pred":Y[:, :, 1],"label":Test_Data[i]['label'][:, :, 1]}
 
         Y_pred.append(Y_dic)
+    print(len(Y_pred))
 
     with open(f"{folder_pred}/Pred_{test_name}.pickle", "wb") as File:
         pickle.dump(Y_pred, File)
-
     return Y_pred
 
 
@@ -425,12 +427,10 @@ def Store_model(k_model, Metric_res, fold_out="", lab="CM",dr=""):
     model_json = k_model.to_json()
     with open(f"{folder}/model.json", "w") as json_file:
         json_file.write(model_json)
-
     k_model.save_weights(f"{folder}/model.h5")
     print("Saved model to disk")
     with open(f"{folder}/metrics.pickle", 'wb') as f:
         pickle.dump(Metric_res, f)
-
     return folder
 
 def LoadModel(n_folder, n_model, n_h5):
@@ -459,7 +459,6 @@ def LoadModel(n_folder, n_model, n_h5):
     return loaded_model, d_metrics
 
 def graphLossAcc(n_folder,met):
-
     with open(f"{n_folder}/metrics.pickle", "rb") as Data:
         Metrics = pickle.load(Data)
     #print(Metrics.keys())

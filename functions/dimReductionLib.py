@@ -1,6 +1,6 @@
 import pickle
 import numpy as np
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA,FastICA,FactorAnalysis
 from sklearn import random_projection
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import TruncatedSVD
@@ -28,21 +28,26 @@ def dimReductionModels(X_dir,dim,drmethod,norm,rand_seed=0,iterations=7):
 
     if drmethod == "PCA":
        print("dimension: ",dim,"PCA model .....")
-       model = PCA(n_components=dim, svd_solver='randomized', whiten=True).fit(X)
+       modeldr = PCA(n_components=dim, svd_solver='randomized', whiten=True).fit(X)
 
     elif drmethod == "RP":
        print("dimension: ",dim,"RP model .....")
-       model = random_projection.SparseRandomProjection(n_components=dim, random_state=rand_seed).fit(X)
+       modeldr = random_projection.SparseRandomProjection(n_components=dim, random_state=rand_seed).fit(X)
 
     elif drmethod == "SVD":
        print("dimension: ",dim,"SVD model .....")
-       model = TruncatedSVD(n_components=dim, n_iter=iterations, random_state=rand_seed).fit(X)
+       modeldr = TruncatedSVD(n_components=dim, n_iter=iterations, random_state=rand_seed).fit(X)
 
+    elif drmethod == "ICA":
+        modeldr = FastICA(n_components=dim, random_state=0).fit(X)
+
+    elif drmethod == "FA":
+        modeldr = FactorAnalysis(n_components=dim, random_state=0).fit(X)
     else:
         raise Exception("invalid option")
 
     with open(f"drMethods/{drmethod}_model.pkl", 'wb') as file:
-        pickle.dump(model,file)
+        pickle.dump(modeldr,file)
 
 
 def dimReduction(X_raw, DR_method,norm=False): #### this function chooses a dimensionality reduction method in order to obtain the embebbed space
@@ -54,28 +59,34 @@ def dimReduction(X_raw, DR_method,norm=False): #### this function chooses a dime
     else:
        print("not Normalising the data")
        Xs=X_raw
-
     if DR_method == 'RAW':
         X_s = X_raw
         print("RAW data")
-
     elif DR_method == 'PCA':
         DR_path = f"{folder_mod}/{DR_method}_model.pkl"
         pca_reload = pickle.load(open(DR_path, 'rb'))
         X_s = pca_reload.transform(Xs)
         print("PCA data")
-
     elif DR_method == "RP":
         DR_path = f"{folder_mod}/{DR_method}_model.pkl"
         rp_reload = pickle.load(open(DR_path, 'rb'))
         X_s = rp_reload.transform(Xs)
         print("RP data")
-
     elif DR_method == "SVD":
         DR_path = f"{folder_mod}/{DR_method}_model.pkl"
         svd_reload = pickle.load(open(DR_path, 'rb'))
         X_s = svd_reload.transform(Xs)
         print("SVD data")
+    elif DR_method == "ICA":
+        DR_path = f"{folder_mod}/{DR_method}_model.pkl"
+        ica_reload = pickle.load(open(DR_path, 'rb'))
+        X_s = ica_reload.transform(Xs)
+        print("ICA data")
+    elif DR_method == "FA":
+        DR_path = f"{folder_mod}/{DR_method}_model.pkl"
+        fa_reload = pickle.load(open(DR_path, 'rb'))
+        X_s = fa_reload.transform(Xs)
+        print("FA data")
     else:
         raise Exception("invalid option")
     return X_s

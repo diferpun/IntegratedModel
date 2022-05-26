@@ -105,6 +105,7 @@ def CalcMCCF1(pred=None, truth=None, probCutoff=0):
         MCC_m = MCC(TP, FP, TN, FN) #### this function returns matthews correlation coefficient
         F1_score, precision, recall = F1(TP, FP, TN, FN) ####### his function returns matthews F1_socre, precision and recall
         metrics.extend([MCC_m,F1_score*100,precision*100,recall*100]) ############## this function concatenates the metrics for the contact ranges
+
     return np.array(metrics) ##### returns the numpy array of the list
 
 
