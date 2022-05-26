@@ -19,36 +19,44 @@ if __name__ == '__main__':
    modelsDir = ""
 
    Lmax=430
-   dr = "PCA"
+   dr = "ICA"
+
+   rawflag=False
    isnorm=False
+
    ds=["Train","Valid","Test"]
-   #dm = 46
-   diml=list(range(3, 46, 3))
-   #diml=[46]
-   sdr = np.random.randint(0, 2000, 1)[0]  # seed weights
+
+   diml=[26]
+
+   if dr=="RAW":
+      diml=[46]
+      rawflag=True
+
+   #sdr = np.random.randint(0, 2000, 1)[0]  # seed weights
+   sdr = 0
 
    ############ Dimension loop #########################################################################
    for i in diml:
 
+      print("bandera",rawflag)
       ##############Data Processing###################################################################
-      random.seed(0)
-      if dr!="RAW":
+
+      if not rawflag:
          dimReductionModels(X_dir=dataDir,dim= i,drmethod=dr,norm=isnorm)
+
 
       x_train = dataGen(DR=dr,data_file=f"{dataDir}/{ds[0]}",Lmin=26,padd=10,Lmax=Lmax,istrain=False,norm=isnorm)
       x_valid = dataGen(DR=dr, data_file=f"{dataDir}/{ds[1]}",Lmin=26,padd=10,Lmax=Lmax, istrain=False, norm=isnorm)
       x_test  = dataGen(DR=dr, data_file=f"{dataDir}/{ds[2]}",Lmin=26,padd=None,Lmax=Lmax, istrain=False, norm=isnorm)
-      x_train = random.sample(x_train,600)
-      x_valid = random.sample(x_valid,60)
-      x_test  = random.sample(x_test,60)
+
       print("dimensions",x_train[0]['fseq'].shape,x_valid[0]['fseq'].shape,x_test[0]['fseq'].shape)
       ####################### Training #######################################################################
       start_time = time.time()
 
-      epch    = 50
-      N_train = len(x_train)  # number of trainig     chain proteins
-      N_valid = len(x_valid)  # number of validation  chain proteins
-      N_test  = len(x_test)
+      epch    = 3
+      N_train = 10 #len(x_train)  # number of trainig     chain proteins
+      N_valid = 1 #len(x_valid)  # number of validation  chain proteins
+      N_test  = 1 #len(x_test)
 
       lr = 0.01  # learning rate values
 
@@ -63,7 +71,7 @@ if __name__ == '__main__':
       # ########### Testing and save the model ##############################################################
 
       strore_folder=Store_model(k_model=model, Metric_res=results, fold_out=modelsDir,
-                                lab=f"ResNet64_2D_{dr}_epochs_{epch}_dim_{i}",dr=dr)
+                                lab=f"ResNet64_2D_{dr}_epochs_{epch}_dim_{i}_seed_{sdr}",dr=dr)
 
       model, metrics = LoadModel(n_folder=strore_folder,n_model="model.json",n_h5="model.h5")
       graphLossAcc(n_folder=strore_folder, met=metrics)
