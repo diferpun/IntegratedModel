@@ -39,7 +39,7 @@ def dimReductionModels(X_dir,dim,drmethod,norm,rand_seed=0,iterations=7):
        modeldr = TruncatedSVD(n_components=dim, n_iter=iterations, random_state=rand_seed).fit(X)
 
     elif drmethod == "ICA":
-        modeldr = FastICA(n_components=dim,max_iter=500,random_state=0).fit(X)
+        modeldr = FastICA(n_components=dim,random_state=0).fit(X)
 
     elif drmethod == "FA":
         modeldr = FactorAnalysis(n_components=dim, random_state=0).fit(X)
