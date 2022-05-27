@@ -53,10 +53,10 @@ if __name__ == '__main__':
       ####################### Training #######################################################################
       start_time = time.time()
 
-      epch    = 3
-      N_train = 10 #len(x_train)  # number of trainig     chain proteins
-      N_valid = 1 #len(x_valid)  # number of validation  chain proteins
-      N_test  = 1 #len(x_test)
+      epch    = 50
+      N_train = len(x_train)  # number of trainig     chain proteins
+      N_valid = len(x_valid)  # number of validation  chain proteins
+      N_test  = len(x_test)
 
       lr = 0.01  # learning rate values
 
