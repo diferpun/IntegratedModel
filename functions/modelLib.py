@@ -379,23 +379,18 @@ def CM_pred2(net, Np_pred, Test_Data, folder_pred="", test_name=""):
     # Output
     # Y_pred A list with the probabilities of contact (L,L,3)
     ############################################################################
-
     Y_pred =  []
-
-
     for i in range(Np_pred):
         Xs_test = tf.convert_to_tensor(np.reshape(Test_Data[i]['fseq'],
                                                   (Test_Data[i]['fseq'].shape[0], 1, Test_Data[i]['fseq'].shape[1])))
         Xc_test = tf.convert_to_tensor(np.reshape(Test_Data[i]['fcoev'],
                                                   (Test_Data[i]['fcoev'].shape[0], Test_Data[i]['fcoev'].shape[1], 1,
                                                    Test_Data[i]['fcoev'].shape[2])))
-
         Y = net.predict_on_batch([Xs_test, Xc_test])
         Y = np.reshape(Y, (Y.shape[1], Y.shape[2], Y.shape[3]))
         print("name: ", Test_Data[i]['name'], "length: ", Y.shape[0], "# Protein : ", i)
         Y_dic = {"name":Test_Data[i]['name'] ,"sequence": Test_Data[i]['sequence']
                 ,"pred":Y[:, :, 1],"label":Test_Data[i]['label'][:, :, 1]}
-
         Y_pred.append(Y_dic)
     print(len(Y_pred))
 
