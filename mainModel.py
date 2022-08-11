@@ -12,18 +12,18 @@ import csv
 if __name__ == '__main__':
    ########## Important definitions ###################################################################
 
-   #dataDir   = "/home/sanlucp71/dataSets"
-   #modelsDir = "/home/sanlucp71"
+   dataDir   = "/home/sanlucp71/dataSets"
+   modelsDir = "/home/sanlucp71"
 
-   dataDir   = "dataSets"
+   #dataDir   = "dataSets"
    modelsDir = ""
    Lmax=430
-   dr = "PCA"
+   dr = "RP"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
-   diml  =[24,30,33]
-   seedsl =[997,1148,565]
+   diml  =[15,27,30]
+   seedsl =[1986,1946,159]
 
    if dr=="RAW":
       diml=[46]
@@ -69,8 +69,8 @@ if __name__ == '__main__':
       Yp = CM_pred2(net=model, Np_pred=N_test, Test_Data=x_test,folder_pred=strore_folder,test_name="Test")  #yp_keys 'name', 'sequence', 'pred'
       save_metrics(Np=N_test, Test_dic=x_test, CM_pred=Yp, folder=f"{strore_folder}/Test_res", cutoffs=[0.20, 0.20])
 
-      with open(f'{modelsDir}/models/{dr}/time_file.csv', 'a') as f:
-         # create the csv writer
-         fieldnames = ['time', 'dim']
-         writer = csv.DictWriter(f, fieldnames=fieldnames)
-         writer.writerow({'time': end_time/3600, 'dim': i})
+      # with open(f'{modelsDir}/models/{dr}/time_file.csv', 'a') as f:
+      #    # create the csv writer
+      #    fieldnames = ['time', 'dim']
+      #    writer = csv.DictWriter(f, fieldnames=fieldnames)
+      #    writer.writerow({'time': end_time/3600, 'dim': i})
