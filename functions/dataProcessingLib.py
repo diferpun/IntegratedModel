@@ -55,10 +55,10 @@ def Sequence_Features(ldic,DR_method=None,istrain=False,norm=False):
 
     print("save Xseq",istrain and DR_method=="RAW")
 
-    if istrain and DR_method=="RAW":  # if the the input is the trainig dataset the sequence matrix is saved
-        with open(f"dataSets/Seq_features.pickle", 'wb') as data_seq:  # this line of code saves the sequence feature matrix
-           pickle.dump(X_dat,data_seq)
-        print('save',X_dat.shape)
+    # if istrain and DR_method=="RAW":  # if the the input is the trainig dataset the sequence matrix is saved
+    #     with open(f"dataSets/Seq_features.pickle", 'wb') as data_seq:  # this line of code saves the sequence feature matrix
+    #        pickle.dump(X_dat,data_seq)
+    #     print('save',X_dat.shape)
 
     X_dat=dimReduction(X_dat,DR_method,norm)
     print(f"{DR_method}",X_dat.shape[1])

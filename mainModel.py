@@ -3,22 +3,25 @@ from functions.dataProcessingLib import dataGen
 from functions.modelLib          import ResNet_Final,Train,Store_model,CM_pred,LoadModel,graphLossAcc,CM_pred2
 from tensorflow.keras.optimizers import Adam
 from functions.evalMetricslib    import save_metrics
+import tensorflow as tf
 import pickle
 import numpy as np
 import random
 import time
 import csv
+import os
+
 
 if __name__ == '__main__':
    ########## Important definitions ###################################################################
 
-   dataDir   = "/home/sanlucp71/dataSets"
-   modelsDir = "/home/sanlucp71"
+   #dataDir   = "/home/sanlucp71/dataSets"
+   #modelsDir = "/home/sanlucp71"
 
-   #dataDir   = "dataSets"
+   dataDir   = "dataSets"
    modelsDir = ""
    Lmax=430
-   dr = "RP"
+   dr = "AE"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
@@ -29,13 +32,18 @@ if __name__ == '__main__':
       diml=[46]
       rawflag=True
 
+   if dr=="AE":
+      os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+      diml=[24]
+      rawflag=True
+
    #sdr = np.random.randint(0, 2000, 1)[0]  # seed weights
    #sdr = 0
 
    ############ Dimension loop #########################################################################
    for sdrindx,i in enumerate(diml):
       sdr=seedsl[sdrindx]
-      print("bandera RAW",rawflag,sdr)
+      print("bandera RAW",rawflag,sdr,i)
       ##############Data Processing###################################################################
 
       if not rawflag:
@@ -62,6 +70,7 @@ if __name__ == '__main__':
       end_time= time.time() - start_time
 
       # ########### Testing and save the model ##############################################################
+
       strore_folder=Store_model(k_model=model, Metric_res=results, fold_out=modelsDir,
                                 lab=f"ResNet64_2D_{dr}_epochs_{epch}_dim_{i}_seed_{sdr}",dr=dr)
       model, metrics = LoadModel(n_folder=strore_folder,n_model="model.json",n_h5="model.h5")

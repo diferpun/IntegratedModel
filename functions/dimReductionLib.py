@@ -4,7 +4,13 @@ from sklearn.decomposition import PCA,FastICA,FactorAnalysis
 from sklearn import random_projection
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import TruncatedSVD
+from tensorflow.keras.models import Model
 import os
+import json
+# tensor flow libraries
+import tensorflow as tf
+from tensorflow.keras.models import Model, model_from_json
+from tensorflow.keras.optimizers import Adam
 
 def normData(X):
     norm_model = StandardScaler().fit(X)
@@ -101,6 +107,21 @@ def dimReduction(X_raw, DR_method,norm=False): #### this function chooses a dime
         fa_reload = pickle.load(open(DR_path, 'rb'))
         X_s = fa_reload.transform(Xs)
         print("FA data")
+
+    elif DR_method == "AE":
+        Xs=X_raw
+        print(f"{folder_mod}/AE_hyperparameters.json")
+        with open(f"{folder_mod}/AE_hyperparameters.json","r") as hp_file:
+             encoder_hp = json.load(hp_file)
+        with open(f"{folder_mod}/AE_model.json", "r") as model_json_file:
+             encoder_model_json=model_json_file.read()
+        encoder_model = model_from_json(encoder_model_json)
+        encoder_model.load_weights(f"{folder_mod}/AE_model.h5")
+        encoder_model.compile(optimizer=Adam(learning_rate= encoder_hp['learning_rate'])
+                              ,loss='mean_squared_error', metrics=['accuracy'])
+        encoder = Model(inputs=encoder_model.input, outputs=encoder_model.get_layer("bottleneck").output)
+        X_s = encoder.predict(Xs)
+        print("encoder shape",X_s.shape)
     else:
         raise Exception("invalid option")
     return X_s
