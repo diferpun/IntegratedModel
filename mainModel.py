@@ -15,13 +15,13 @@ import os
 if __name__ == '__main__':
    ########## Important definitions ###################################################################
 
-   #dataDir   = "/home/sanlucp71/dataSets"
-   #modelsDir = "/home/sanlucp71"
+   dataDir   = "/home/andres_david_0496/dataSets"
+   modelsDir = "/home/andres_david_0496"
 
-   dataDir   = "dataSets"
-   modelsDir = ""
+   #dataDir   = "dataSets"
+   #modelsDir = ""
    Lmax=430
-   dr = "AE"
+   dr = "RAW"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
