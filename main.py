@@ -42,17 +42,14 @@ if __name__ == '__main__':
       x_test  = random.sample(x_test,60)
       print("dimensions",x_train[0]['fseq'].shape,x_valid[0]['fseq'].shape,x_test[0]['fseq'].shape)
       ####################### Training #######################################################################
-      start_time = time.time()
 
+      start_time = time.time()
       epch    = 50
       N_train = len(x_train)  # number of trainig     chain proteins
       N_valid = len(x_valid)  # number of validation  chain proteins
       N_test  = len(x_test)
-
       lr = 0.01  # learning rate values
-
       opt = Adam(learning_rate=lr)
-
       model = ResNet_Final(feature1D_shape=i, feature2D_deep=4, reg_params=None, rseed=sdr)
       model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
       print(model.summary())

@@ -2,6 +2,7 @@ import numpy as np
 import os
 import pickle
 from functions.evalMetricslib import reduceListMetrics,CalcMCCF1
+import re
 
 def Pair_generator(CM_prob, dis=1,issort=False):
     ##########################################################
@@ -116,3 +117,14 @@ def get_rr_sequence(target,dir_main,seq_init=3):
     # print(seq)
     # print(len(seq))
     return seq,len(seq)
+
+def getFolders(modfolder):
+    folders = [i for i in os.listdir(modfolder) if not os.path.isfile(f"{modfolder}/{i}")]
+    components=[]
+    drmethods=[]
+    for j in folders:
+        auxs = j.split("_")
+        components.append(int(auxs[7]))
+        drmethods.append(re.sub(r'[^a-zA-Z]', '', auxs[3]))
+        #print(j,auxs[7],auxs[3])
+    return folders,drmethods,components,
