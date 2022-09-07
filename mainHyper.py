@@ -21,13 +21,13 @@ if __name__ == '__main__':
    modelsDir = "."
 
    Lmax=430
-   dr = "PCA"
+   dr = "SVD"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
    dim  =15
    srd =1986
-   epch = 1
+   epch = 1 ################################## importante #########################################
 
    if dr=="RAW":
       dim=46
@@ -80,7 +80,7 @@ if __name__ == '__main__':
          hyper_comb_str[0] = hyper_comb_str[0].split(".")[-1].replace(">", "")
          hyper_comb_str[0] = hyper_comb_str[0].replace("'", "")
          hyper_comb_dic = {"optimizer": hyper_comb_str[0], "learning_rate": hyper_comb_str[1],
-                           "regularizer": f"{hyper_comb_str[2]}", "regularizer_value": hyper_comb_str[3]}
+                           "regularizer": f"L{hyper_comb_str[2]}", "regularizer_value":hyper_comb_str[3]}
          fieldnames = list(hyper_comb_dic.keys())
          writer = csv.DictWriter(f, fieldnames=fieldnames)
          writer.writeheader()
