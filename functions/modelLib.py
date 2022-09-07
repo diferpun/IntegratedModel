@@ -488,7 +488,7 @@ def randomSearch(ncombination=1):
   hyperparameters      =  [hp_opt_algorithm,hp_learning_rate,hp_reg_type,hp_reg_values]
   hp_grid              =  list(itertools.product(*hyperparameters))
   random.shuffle(hp_grid)
-  print("number of permutaciones",len(hp_grid))
+  print("number of permutations",len(hp_grid))
   return hp_grid[:ncombination]
 
 

@@ -21,7 +21,7 @@ if __name__ == '__main__':
    modelsDir = "."
 
    Lmax=430
-   dr = "RAW"
+   dr = "PCA"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
