@@ -6,6 +6,8 @@ import datetime as dt
 import numpy as np
 import pickle
 import gc
+import itertools
+import random
 
 # tensor flow libraries
 from tensorflow.keras.models import Model, model_from_json
@@ -14,8 +16,11 @@ from tensorflow.keras.regularizers import l1,l2
 from tensorflow.keras.layers import Input, Conv1D, BatchNormalization, Flatten, Conv2D,ReLU,Softmax
 from tensorflow.keras.initializers import GlorotUniform
 import tensorflow as tf
-import  matplotlib.pyplot as plt
+from tensorflow.keras.optimizers import Adam,Nadam,Adamax
+from tensorflow.keras.regularizers import l1,l2
 
+#########################################
+import  matplotlib.pyplot as plt
 
 #################### outer contact ######################################
 
@@ -473,5 +478,19 @@ def graphLossAcc(n_folder,met):
     #plt.show()
     plt.savefig(f"{n_folder}/acc.png")
     plt.close()
+
+def randomSearch(ncombination=1):
+
+  hp_opt_algorithm     =  [Adamax,Nadam,Adam]
+  hp_learning_rate     =  [0.1, 1e-2, 1e-3,1e-4,1e-5]
+  hp_reg_type          =  [1,2]
+  hp_reg_values        =  [0.1, 1e-2, 1e-3, 1e-4, 1e-5]
+  hyperparameters      =  [hp_opt_algorithm,hp_learning_rate,hp_reg_type,hp_reg_values]
+  hp_grid              =  list(itertools.product(*hyperparameters))
+  random.shuffle(hp_grid)
+  print("number of permutaciones",len(hp_grid))
+  return hp_grid[:ncombination]
+
+
 
 
