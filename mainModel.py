@@ -1,7 +1,8 @@
 from functions.dimReductionLib   import dimReductionModels
 from functions.dataProcessingLib import dataGen
 from functions.modelLib          import ResNet_Final,Train,Store_model,CM_pred,LoadModel,graphLossAcc,CM_pred2
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam,Nadam,Adamax
+from tensorflow.keras.regularizers import l1,l2
 from functions.evalMetricslib    import save_metrics
 import tensorflow as tf
 import pickle
