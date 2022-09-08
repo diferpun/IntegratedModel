@@ -16,18 +16,18 @@ import os
 if __name__ == '__main__':
    ########## Important definitions ###################################################################
 
-   dataDir   = "/home/andres_david_0496/dataSets"
-   modelsDir = "/home/andres_david_0496"
+   #dataDir   = "/home/andres_david_0496/dataSets"
+   #modelsDir = "/home/andres_david_0496"
 
-   #dataDir   = "dataSets"
-   #modelsDir = ""
+   dataDir   = "dataSets"
+   modelsDir = ""
    Lmax=430
-   dr = "RAW"
+   dr = "SVD"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
-   diml  =[15,27,30]
-   seedsl =[1986,1946,159]
+   diml  =[27]
+   seedsl =[1946]
 
    if dr=="RAW":
       diml=[46]

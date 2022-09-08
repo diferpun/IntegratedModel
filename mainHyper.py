@@ -7,6 +7,7 @@ import time
 import os
 import csv
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
 
