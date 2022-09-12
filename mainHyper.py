@@ -1,19 +1,18 @@
-from functions.modelLib import randomSearch
+from functions.modelLib          import randomSearch
 from functions.dimReductionLib   import dimReductionModels
 from functions.dataProcessingLib import dataGen
 from functions.modelLib          import ResNet_Final,Train,Store_model,CM_pred,LoadModel,graphLossAcc,CM_pred2
+from functions.modelLib          import ResNet_Final2
 from functions.evalMetricslib    import save_metrics
 import time
 import os
 import csv
-
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
 
 if __name__ == '__main__':
    ########## important paths ###################################################################
-
    hyper_grid_random = randomSearch(5)
 
    #dataDir    = "/home/andres_david_0496/dataSets"
@@ -22,13 +21,13 @@ if __name__ == '__main__':
    modelsDir = "."
 
    Lmax=430
-   dr = "SVD"
+   dr = "RAW"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
    dim  =15
-   srd =1986
-   epch = 1 ################################## importante #########################################
+   srd  =808
+   epch = 20 ################################## importante #########################################
 
    if dr=="RAW":
       dim=46
@@ -72,8 +71,9 @@ if __name__ == '__main__':
                                 lab=f"ResNet64_2D_{dr}{i}_epochs_{epch}_dim_{dim}_seed_{srd}",dr=dr)
       model, metrics = LoadModel(n_folder=strore_folder,n_model="model.json",n_h5="model.h5")
       graphLossAcc(n_folder=strore_folder, met=metrics)
-      Yp = CM_pred2(net=model, Np_pred=N_test, Test_Data=x_test,folder_pred=strore_folder,test_name="Test")  #yp_keys 'name', 'sequence', 'pred'
-      save_metrics(Np=N_test, Test_dic=x_test, CM_pred=Yp, folder=f"{strore_folder}/Test_res", cutoffs=[0.20, 0.20])
+
+      #Yp = CM_pred2(net=model, Np_pred=N_test, Test_Data=x_test,folder_pred=strore_folder,test_name="Test")  #yp_keys 'name', 'sequence', 'pred'
+      #save_metrics(Np=N_test, Test_dic=x_test, CM_pred=Yp, folder=f"{strore_folder}/Test_res", cutoffs=[0.20, 0.20])
 
       with open(f'{strore_folder}/hyperparameters.csv', 'a') as f:
          # create the csv writer

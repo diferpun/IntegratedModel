@@ -479,8 +479,9 @@ def graphLossAcc(n_folder,met):
     plt.savefig(f"{n_folder}/acc.png")
     plt.close()
 
+################################################################################
+# 30 modelos
 def randomSearch(ncombination=1):
-
   hp_opt_algorithm     =  [Adamax,Nadam,Adam]
   hp_learning_rate     =  [0.1, 1e-2, 1e-3,1e-4,1e-5]
   hp_reg_type          =  [1,2]
@@ -491,6 +492,33 @@ def randomSearch(ncombination=1):
   print("number of permutations",len(hp_grid))
   return hp_grid[:ncombination]
 
+def ResNet_Final2(feature1D_shape=46,feature2D_deep=4,reg_params=None,rseed=0):
 
+    if reg_params is None:
+        reg_param = None
+    elif reg_params[0] == 1:
+        reg_param = l1(reg_params[1])
+    elif reg_params[0] == 2:
+        reg_param = l2(reg_params[1])
+
+    ########## Inputs ######################################
+    X_input = Input((1, feature1D_shape))
+    X_cc= Input((None,1,feature2D_deep))
+    ############ Sequence features Resnet 1D ###############
+    for i in range(2):
+        X = ResBlock_Conv1D(X_input, n_filters=[20,20], s_filters=[17,17], v_strides=[1,1],
+                            stage=1, block='b',reg_params=reg_params,rseed=rseed)
+    ########### Outer concatenation #######################
+    X = layers.Lambda(outer_concat)(X)
+    X = layers.Concatenate(axis=3)([X,X_cc])
+    X = layers.Lambda(Rotate)(X)
+    ############ Coevolution features Resnet 2D ##############
+    for i in range(8):
+        X=ResBlock_Conv2D(X,[64,64],[3,3],[1,1],1,'a',reg_params,rseed=rseed)
+    ################## Salida dnumber of filters in the previous layerel Modelo #################
+    X = Conv2D(3,(3, 3),strides=(1, 1),padding='same',kernel_initializer=GlorotUniform(seed=rseed),kernel_regularizer=reg_param)(X)
+    X = Softmax()(X)
+    mod = Model([X_input,X_cc], X, name="ResNet")
+    return mod
 
 

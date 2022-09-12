@@ -6,10 +6,11 @@ from functions.dataProcessingLib import dataGen
 from functions.evalMetricslib    import save_metrics
 from functions.utils             import getFolders
 import re
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 if __name__ == "__main__":
 
-    mainfolder                     = "/home/diego/Downloads/final_test/all_results"
+    mainfolder                     = "/home/diego/Downloads/final_test/all_results2"
     modelsfolders, drm, dimensions = getFolders(mainfolder)
     Test_Files                     = ["76CAMEO", "MEMS400"]
     dataDir                        = "dataSets"
