@@ -14,11 +14,11 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 if __name__ == '__main__':
    ########## important paths ###################################################################
    hyper_grid_random = randomSearch(5)
+   dataDir    = "/home/andres_david_0496/dataSets"
+   modelsDir  = "/home/andres_david_0496"
 
-   #dataDir    = "/home/andres_david_0496/dataSets"
-   #modelsDir  = "/home/andres_david_0496"
-   dataDir   = "dataSets"
-   modelsDir = "."
+   #dataDir   = "dataSets"
+   #modelsDir = "."
 
    Lmax=430
    dr = "RAW"
