@@ -13,7 +13,7 @@ import csv
 
 if __name__ == '__main__':
    ########## important paths ###################################################################
-   hyper_grid_random = randomSearch(5)
+   hyper_grid_random = randomSearch(30)
    dataDir    = "/home/andres_david_0496/dataSets"
    modelsDir  = "/home/andres_david_0496"
 
