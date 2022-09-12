@@ -7,7 +7,7 @@ from functions.evalMetricslib    import save_metrics
 import time
 import os
 import csv
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
 
@@ -54,9 +54,9 @@ if __name__ == '__main__':
       print("dimensions",x_train[0]['fseq'].shape,x_valid[0]['fseq'].shape,x_test[0]['fseq'].shape)
       ####################### Training #######################################################################
 
-      N_train = 5 #len(x_train)  # number of trainig     chain proteins
-      N_valid = 1 #len(x_valid)  # number of validation  chain proteins
-      N_test  = 1 #len(x_test)
+      N_train =len(x_train)  # number of trainig     chain proteins
+      N_valid =len(x_valid)  # number of validation  chain proteins
+      N_test  =len(x_test)
       lr =   hyper_comb[1]  #0.01  # learning rate values
       opt =  hyper_comb[0](learning_rate=lr)  #Adam(learning_rate=lr)
       model = ResNet_Final(feature1D_shape=dim, feature2D_deep=4, reg_params=[hyper_comb[2],hyper_comb[3]], rseed=srd)
