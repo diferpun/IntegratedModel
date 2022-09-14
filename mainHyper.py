@@ -13,7 +13,7 @@ import csv
 
 if __name__ == '__main__':
    ########## important paths ###################################################################
-   hyper_grid_random = randomSearch(30)
+   hyper_grid_random = randomSearch(20)
    dataDir    = "/home/andres_david_0496/dataSets"
    modelsDir  = "/home/andres_david_0496"
 
@@ -21,12 +21,12 @@ if __name__ == '__main__':
    #modelsDir = "."
 
    Lmax=430
-   dr = "RAW"
+   dr = "PCA"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
-   dim  =15
-   srd  =808
+   dim  =24
+   srd  =997
    epch = 20 ################################## importante #########################################
 
    if dr=="RAW":
