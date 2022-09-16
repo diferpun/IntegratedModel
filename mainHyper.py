@@ -25,8 +25,8 @@ if __name__ == '__main__':
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
-   dim  =24
-   srd  =997
+   dim  =33
+   srd  =565
    epch = 20 ################################## importante #########################################
 
    if dr=="RAW":

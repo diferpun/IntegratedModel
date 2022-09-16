@@ -10,9 +10,9 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 if __name__ == "__main__":
 
-    mainfolder                     = "/home/diego/Downloads/final_test/all_results2"
+    mainfolder                     = "/home/diego/Downloads/final_test/all_results_hp/RAW"
     modelsfolders, drm, dimensions = getFolders(mainfolder)
-    Test_Files                     = ["76CAMEO", "MEMS400"]
+    Test_Files                     = ["Test","76CAMEO", "MEMS400"]
     dataDir                        = "dataSets"
 
     for i,modfold in enumerate(modelsfolders):
