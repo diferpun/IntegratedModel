@@ -21,12 +21,12 @@ if __name__ == '__main__':
    #modelsDir = "."
 
    Lmax=430
-   dr = "PCA"
+   dr = "SVD"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
-   dim  =33
-   srd  =565
+   dim  =27
+   srd  =1461
    epch = 20 ################################## importante #########################################
 
    if dr=="RAW":
