@@ -8,7 +8,7 @@ from functions.evalMetricslib    import save_metrics
 import time
 import os
 import csv
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
 
@@ -16,7 +16,7 @@ if __name__ == '__main__':
    ########## important paths ###################################################################
    #hyper_grid_random = randomSearch(20)
 
-   hyper_grid_random=[(Adamax,0.001,2,0.01)]
+   hyper_grid_random=[(Adam,0.001,2,1e-05)]
    dataDir    = "/home/andres_david_0496/dataSets"
    modelsDir  = "/home/andres_david_0496"
 
@@ -28,8 +28,8 @@ if __name__ == '__main__':
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
-   dim  = 33
-   srd  = 565
+   dim  = 24
+   srd  = 997
    epch = 50 ################################## importante #########################################
 
    if dr=="RAW":
