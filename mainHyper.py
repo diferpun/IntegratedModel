@@ -17,11 +17,11 @@ if __name__ == '__main__':
    #hyper_grid_random = randomSearch(20)
 
    hyper_grid_random=[(Adamax,0.001,2,0.01)]
-   #dataDir    = "/home/andres_david_0496/dataSets"
-   #modelsDir  = "/home/andres_david_0496"
+   dataDir    = "/home/andres_david_0496/dataSets"
+   modelsDir  = "/home/andres_david_0496"
 
-   dataDir   = "dataSets"
-   modelsDir = "."
+   #dataDir   = "dataSets"
+   #modelsDir = "."
 
    Lmax=430
    dr = "PCA"
