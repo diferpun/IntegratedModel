@@ -2,32 +2,35 @@ from functions.modelLib          import randomSearch
 from functions.dimReductionLib   import dimReductionModels
 from functions.dataProcessingLib import dataGen
 from functions.modelLib          import ResNet_Final,Train,Store_model,CM_pred,LoadModel,graphLossAcc,CM_pred2
+from tensorflow.keras.optimizers import Adam,Nadam,Adamax
 from functions.modelLib          import ResNet_Final2
 from functions.evalMetricslib    import save_metrics
 import time
 import os
 import csv
-#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
 
 if __name__ == '__main__':
    ########## important paths ###################################################################
-   hyper_grid_random = randomSearch(20)
-   dataDir    = "/home/andres_david_0496/dataSets"
-   modelsDir  = "/home/andres_david_0496"
+   #hyper_grid_random = randomSearch(20)
 
-   #dataDir   = "dataSets"
-   #modelsDir = "."
+   hyper_grid_random=[(Adamax,0.001,2,0.01)]
+   #dataDir    = "/home/andres_david_0496/dataSets"
+   #modelsDir  = "/home/andres_david_0496"
+
+   dataDir   = "dataSets"
+   modelsDir = "."
 
    Lmax=430
-   dr = "AE"
+   dr = "PCA"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
-   dim  =27
-   srd  =506
-   epch = 20 ################################## importante #########################################
+   dim  = 33
+   srd  = 565
+   epch = 50 ################################## importante #########################################
 
    if dr=="RAW":
       dim=46
