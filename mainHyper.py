@@ -16,7 +16,7 @@ if __name__ == '__main__':
    ########## important paths ###################################################################
    #hyper_grid_random = randomSearch(20)
 
-   hyper_grid_random=[(Nadam,0.0001,2,1e-05)]
+   hyper_grid_random=[(Adam, 0.0001, 1,0.0001)]
    dataDir    = "/home/andres_david_0496/dataSets"
    modelsDir  = "/home/andres_david_0496"
 
@@ -24,12 +24,12 @@ if __name__ == '__main__':
    #modelsDir = "."
 
    Lmax=430
-   dr = "AE"
+   dr = "RAW"
    rawflag=False
    isnorm=False
    ds=["Train","Valid","Test"]
    dim  = 24
-   srd  = 506
+   srd  = 808
    epch = 50 ################################## importante #########################################
 
    if dr=="RAW":
