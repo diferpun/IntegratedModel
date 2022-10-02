@@ -16,7 +16,7 @@ if __name__ == '__main__':
    ########## important paths ###################################################################
    #hyper_grid_random = randomSearch(20)
 
-   hyper_grid_random=[(Adam, 0.001,	1,1e-05)]
+   hyper_grid_random=[(Adam, 0.001,1,1e-05)]
    dataDir    = "/home/andres_david_0496/dataSets"
    modelsDir  = "/home/andres_david_0496"
 
