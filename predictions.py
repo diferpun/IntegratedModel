@@ -10,7 +10,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 if __name__ == "__main__":
 
-    mainfolder                     = "/home/diego/Downloads/models/RAW" #"/home/diego/Downloads/final_test/all_results_hp/AE"
+    mainfolder                     = "/home/diego/Downloads/models2/all" #"/home/diego/Downloads/final_test/all_results_hp/AE"
     modelsfolders, drm, dimensions = getFolders(mainfolder)
     Test_Files                     = ["Test","76CAMEO", "MEMS400"]
     dataDir                        = "dataSets"
